@@ -1,0 +1,446 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Un regalo para vos | Pilates del Sol</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: #482914;
+    font-family: Georgia, "Times New Roman", serif;
+    color: #e4c47a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px 15px;
+}
+
+.scene {
+    width: 100%;
+    max-width: 460px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.intro {
+    margin-bottom: 35px;
+    animation: aparecer 1s ease;
+}
+
+.intro p {
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    color: #c6a477;
+}
+
+.intro h1 {
+    font-size: 28px;
+    line-height: 1.4;
+    font-weight: normal;
+    color: #e4c47a;
+}
+
+/* SOBRE */
+
+.envelope-wrapper {
+    position: relative;
+    width: 320px;
+    height: 210px;
+    margin: 45px auto 30px;
+    perspective: 1000px;
+}
+
+.envelope {
+    position: absolute;
+    inset: 0;
+    background: #68401f;
+    border: 1px solid #c6a477;
+    overflow: visible;
+}
+
+/* TARJETA DENTRO DEL SOBRE */
+
+.gift-card {
+    position: absolute;
+    z-index: 2;
+    width: 90%;
+    height: 260px;
+    left: 5%;
+    top: -20px;
+    background: #482914;
+    border: 1px solid #e4c47a;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    opacity: 0;
+    transform: translateY(35px);
+    transition:
+        transform 1.2s ease,
+        opacity .8s ease;
+    pointer-events: none;
+}
+
+.gift-card img {
+    width: 100%;
+    max-width: 230px;
+    height: auto;
+}
+
+.gift-card p {
+    margin-top: 12px;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: #e4c47a;
+}
+
+/* FRENTE DEL SOBRE */
+
+.envelope-front {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    background: #754a27;
+    clip-path: polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%);
+}
+
+.envelope-front::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        transparent 49.5%,
+        #c6a477 50%,
+        transparent 50.5%
+    );
+    opacity: .5;
+}
+
+/* SOLAPA */
+
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 110px;
+    background: #95643a;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top center;
+    transition: transform .8s ease;
+    z-index: 5;
+}
+
+/* SELLO */
+
+.seal {
+    position: absolute;
+    z-index: 6;
+    width: 44px;
+    height: 44px;
+    border: 1px solid #e4c47a;
+    border-radius: 50%;
+    background: #482914;
+    color: #e4c47a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    top: 82px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: opacity .3s ease;
+}
+
+/* SOBRE ABIERTO */
+
+.scene.open .envelope-flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.scene.open .gift-card {
+    opacity: 1;
+    transform: translateY(-175px);
+    z-index: 7;
+}
+
+/* BOTÓN */
+
+.open-button {
+    position: relative;
+    z-index: 20;
+    display: inline-block;
+    border: 1px solid #e4c47a;
+    background: transparent;
+    color: #e4c47a;
+    padding: 16px 35px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: all .3s ease;
+    pointer-events: auto;
+}
+
+.open-button:hover {
+    background: #e4c47a;
+    color: #482914;
+}
+
+.instruction {
+    color: #c6a477;
+    font-size: 13px;
+    margin-top: 20px;
+}
+
+/* REGALO REVELADO */
+
+.final-card {
+    display: none;
+    width: 100%;
+    max-width: 420px;
+    margin-top: 45px;
+    padding: 35px 25px;
+    border: 1px solid #c6a477;
+    background: #482914;
+}
+
+.final-card h2 {
+    color: #e4c47a;
+    font-size: 25px;
+    font-weight: normal;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+.gift-title {
+    color: #e4c47a;
+    font-size: 35px;
+    line-height: 1.3;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+.gift-subtitle {
+    color: #e4c47a;
+    font-size: 17px;
+    letter-spacing: 4px;
+    line-height: 1.5;
+}
+
+.divider {
+    width: 65px;
+    height: 1px;
+    background: #c6a477;
+    margin: 25px auto;
+}
+
+.description {
+    color: #f5e9dc;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.closing {
+    color: #e4c47a;
+    font-size: 21px;
+    font-style: italic;
+    margin-top: 25px;
+}
+
+.footer {
+    color: #c6a477;
+    font-size: 10px;
+    letter-spacing: 3px;
+    margin-top: 30px;
+    line-height: 1.8;
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes revelar {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 400px) {
+    .envelope-wrapper {
+        width: 280px;
+        height: 190px;
+    }
+
+    .scene.open .gift-card {
+        transform: translateY(-155px);
+    }
+
+    .intro h1 {
+        font-size: 25px;
+    }
+
+    .gift-title {
+        font-size: 29px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<main class="scene" id="scene">
+
+    <header class="intro">
+        <p>Pilates del Sol</p>
+        <h1>
+            Hay una experiencia especial<br>
+            esperando por vos...
+        </h1>
+    </header>
+
+    <div class="envelope-wrapper">
+
+        <div class="envelope">
+
+            <div class="gift-card">
+                <img
+                    src="imagenes/WhatsApp Image 2026-11-24 at 08.28.50.jpeg"
+                    alt="Pilates del Sol"
+                >
+                <p>UN REGALO PARA VOS</p>
+            </div>
+
+            <div class="envelope-front"></div>
+
+            <div class="envelope-flap"></div>
+
+            <div class="seal">☀</div>
+
+        </div>
+
+    </div>
+
+    <button
+        class="open-button"
+        id="openButton"
+        type="button"
+        onclick="openGift()"
+    >
+        Abrir mi regalo
+    </button>
+
+    <p class="instruction" id="instruction">
+        Tocá el botón para descubrir tu sorpresa
+    </p>
+
+    <section class="final-card" id="finalCard">
+
+        <h2>¡Este regalo es para vos!</h2>
+
+        <p class="gift-title">
+            UNA CLASE GRATIS
+        </p>
+
+        <p class="gift-subtitle">
+            DE MEDITACIÓN
+        </p>
+
+        <div class="divider"></div>
+
+        <p class="description">
+            Regalate un momento para pausar,
+            respirar y conectar con tu interior.
+            <br><br>
+            Te esperamos para compartir una experiencia
+            de calma, bienestar y conexión.
+        </p>
+
+        <div class="divider"></div>
+
+        <p class="closing">
+            ¡Disfrutá tu momento!
+        </p>
+
+        <p class="footer">
+            CONECTÁ · RESPIRÁ · TRANSFORMATE
+        </p>
+
+    </section>
+
+    <footer class="footer">
+        PILATES DEL SOL
+    </footer>
+
+</main>
+
+<script>
+function openGift() {
+
+    const scene = document.getElementById("scene");
+    const button = document.getElementById("openButton");
+    const instruction = document.getElementById("instruction");
+    const finalCard = document.getElementById("finalCard");
+
+    if (!scene || !button || !instruction || !finalCard) {
+        alert("No se encontró uno de los elementos del regalo.");
+        return;
+    }
+
+    button.disabled = true;
+
+    // Abrir el sobre
+    scene.classList.add("open");
+
+    // Ocultar botón e indicación
+    button.style.display = "none";
+    instruction.style.display = "none";
+
+    // Mostrar el regalo
+    setTimeout(function() {
+
+        finalCard.style.display = "block";
+        finalCard.style.animation = "revelar 1s ease";
+
+        finalCard.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+    }, 1500);
+
+}
+</script>
+
+</body>
+</html>
